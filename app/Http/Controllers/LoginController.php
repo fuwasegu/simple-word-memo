@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+declare(strict_types=1);
 
-use App\Http\Controllers\Controller;
-use App\Models\User;
+namespace App\Http\Controllers;
+
 use Illuminate\Auth\AuthManager;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Laravel\Socialite\SocialiteManager;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Packages\user\UserRepository;
 
-class GoogleLoginController extends Controller
+class LoginController extends Controller
 {
     public function login(SocialiteManager $socialiteManager)
     {
@@ -19,8 +19,11 @@ class GoogleLoginController extends Controller
             ->redirect();
     }
 
-    public function callback(AuthManager $authManager, SocialiteManager $socialiteManager, UserRepository $userRepository)
-    {
+    public function callback(
+        AuthManager $authManager,
+        SocialiteManager $socialiteManager,
+        UserRepository $userRepository
+    ): JsonResponse {
         $googleUser = $socialiteManager
             ->driver('google')
             ->user();
