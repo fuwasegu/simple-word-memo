@@ -8,7 +8,7 @@ use Illuminate\Auth\AuthManager;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Laravel\Socialite\SocialiteManager;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Packages\user\UserRepository;
+use Packages\User\UserRepository;
 
 class LoginController extends Controller
 {
