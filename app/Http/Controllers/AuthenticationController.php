@@ -15,12 +15,18 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AuthenticationController extends Controller
 {
+    /**
+     * 本アプリケーションでは，ログインに Google OAuth2 のみを利用するため，AuthManager を決め打ちする
+     */
     public function login(GoogleProvider $googleProvider): RedirectResponse
     {
         return $googleProvider
             ->redirect();
     }
 
+    /**
+     * 本アプリケーションでは，ログインに Google OAuth2 のみを利用するため，AuthManager を決め打ちする
+     */
     public function callback(
         StatefulGuard $guard,
         GoogleProvider $googleProvider,

@@ -17,6 +17,8 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->alias(Guard::class, StatefulGuard::class);
+
+        // 本アプリケーションでは，ログインに Google OAuth2 のみを利用するため，AuthManager を決め打ちする
         $this->app
             ->when(GoogleProvider::class)
             ->needs('$clientId')
