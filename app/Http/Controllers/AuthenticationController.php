@@ -6,11 +6,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Auth\AuthManager;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Http\Request;
 use Laravel\Socialite\SocialiteManager;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Packages\User\UserRepository;
+use Symfony\Component\HttpFoundation\Response;
 
-class LoginController extends Controller
+class AuthenticationController extends Controller
 {
     public function login(SocialiteManager $socialiteManager)
     {
@@ -37,11 +39,19 @@ class LoginController extends Controller
         assert($user instanceof Authenticatable);
         $authManager->guard()->login($user);
 
-        return new JsonResponse(
-            data: [
-                'message' => 'login success',
-            ],
-            status: 200,
-        );
+        return new JsonResponse([
+                'message' => 'Logged in',
+            ], Response::HTTP_OK,);
+    }
+
+    public function logout(Request $request, AuthManager $authManager): JsonResponse
+    {
+        $authManager->guard()->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return new JsonResponse([
+            'message' => 'Logged out'
+        ], Response::HTTP_OK,);
     }
 }
