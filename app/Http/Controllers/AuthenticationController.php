@@ -36,7 +36,6 @@ class AuthenticationController extends Controller
             googleId: $googleUser->getId(),
         );
 
-        assert($user instanceof Authenticatable);
         $authManager->guard()->login($user);
 
         return new JsonResponse([
