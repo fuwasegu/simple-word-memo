@@ -21,8 +21,6 @@ class UserController extends Controller
             $user = $action();
         } catch (UserNotFoundException $exception) {
             return new JsonResponse(['message' => 'User not found.'], Response::HTTP_NOT_FOUND);
-        } catch (UnauthorizedException $exception) {
-            return new JsonResponse(['message' => 'Unauthorized'], Response::HTTP_UNAUTHORIZED);
         }
 
         return new JsonResponse($user, Response::HTTP_OK);

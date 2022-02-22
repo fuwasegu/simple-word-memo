@@ -18,4 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/login', [LoginController::class, 'login']);
 Route::get('/login/callback', [LoginController::class, 'callback']);
 
-ROute::get('/user', [UserController::class, 'show']);
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/user', [UserController::class, 'show']);
+});
+

@@ -1,21 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Middleware;
 
+use Closure;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class Authenticate extends Middleware
 {
     /**
-     * Get the path the user should be redirected to when they are not authenticated.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return string|null
+     * 本アプリケーションでは，Google OAuth2 のみを利用するため Guard を区別しない
      */
-    protected function redirectTo($request)
+    public function handle($request, Closure $next, ...$guards)
     {
-        if (! $request->expectsJson()) {
-            return route('login');
+        if (! $this->auth->guard()->check()) {
+            return new JsonResponse([
+                'message' => 'Unauthorized'
+            ], Response::HTTP_UNAUTHORIZED);
         }
+
+        return $next($request);
     }
 }
