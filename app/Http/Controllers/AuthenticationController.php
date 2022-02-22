@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Auth\AuthManager;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\Request;
 use Laravel\Socialite\SocialiteManager;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,7 +23,7 @@ class AuthenticationController extends Controller
     }
 
     public function callback(
-        AuthManager $authManager,
+        StatefulGuard $guard,
         SocialiteManager $socialiteManager,
         UserRepository $userRepository
     ): JsonResponse {
@@ -36,16 +37,16 @@ class AuthenticationController extends Controller
             googleId: $googleUser->getId(),
         );
 
-        $authManager->guard()->login($user);
+        $guard->login($user);
 
         return new JsonResponse([
                 'message' => 'Logged in',
             ], Response::HTTP_OK,);
     }
 
-    public function logout(Request $request, AuthManager $authManager): JsonResponse
+    public function logout(Request $request, StatefulGuard $guard): JsonResponse
     {
-        $authManager->guard()->logout();
+        $guard->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
