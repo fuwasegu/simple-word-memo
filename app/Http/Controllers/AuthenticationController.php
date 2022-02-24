@@ -4,32 +4,35 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use Illuminate\Auth\AuthManager;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\StatefulGuard;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Laravel\Socialite\SocialiteManager;
+use Laravel\Socialite\Two\GoogleProvider;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Packages\User\UserRepository;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthenticationController extends Controller
 {
-    public function login(SocialiteManager $socialiteManager)
+    /**
+     * 本アプリケーションでは，ログインに Google OAuth2 のみを利用するため，AuthManager を決め打ちする
+     */
+    public function login(GoogleProvider $googleProvider): RedirectResponse
     {
-        return $socialiteManager
-            ->driver('google')
+        return $googleProvider
             ->redirect();
     }
 
+    /**
+     * 本アプリケーションでは，ログインに Google OAuth2 のみを利用するため，AuthManager を決め打ちする
+     */
     public function callback(
         StatefulGuard $guard,
-        SocialiteManager $socialiteManager,
+        GoogleProvider $googleProvider,
         UserRepository $userRepository
     ): JsonResponse {
-        $googleUser = $socialiteManager
-            ->driver('google')
-            ->user();
+        $googleUser = $googleProvider->user();
 
         $user = $userRepository->retrieveByEmailOrCreate(
             email: $googleUser->getEmail(),
