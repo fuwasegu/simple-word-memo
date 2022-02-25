@@ -50,6 +50,8 @@ class AuthenticationController extends Controller
     public function logout(Request $request, StatefulGuard $guard): JsonResponse
     {
         $guard->logout();
+
+        // セッション固定攻撃対策．現在のセッションを破棄してセッションIDを再生性
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
