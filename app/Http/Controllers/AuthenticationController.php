@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use Laravel\Socialite\SocialiteManager;
 use Laravel\Socialite\Two\GoogleProvider;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -31,8 +32,8 @@ class AuthenticationController extends Controller
         StatefulGuard $guard,
         GoogleProvider $googleProvider,
         UserRepository $userRepository
-    ): JsonResponse {
-        $googleUser = $googleProvider->user();
+    ) {
+        $googleUser = $googleProvider->stateless()->user();
 
         $user = $userRepository->retrieveByEmailOrCreate(
             email: $googleUser->getEmail(),
@@ -41,13 +42,10 @@ class AuthenticationController extends Controller
         );
 
         $guard->login($user);
-
-        return new JsonResponse([
-                'message' => 'Logged in',
-            ], Response::HTTP_OK,);
+        return redirect('/');
     }
 
-    public function logout(Request $request, StatefulGuard $guard): JsonResponse
+    public function logout(Request $request, StatefulGuard $guard): View
     {
         $guard->logout();
 
@@ -55,8 +53,6 @@ class AuthenticationController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return new JsonResponse([
-            'message' => 'Logged out'
-        ], Response::HTTP_OK,);
+        return view('login');
     }
 }

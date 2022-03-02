@@ -6,7 +6,7 @@
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         @yield('pageCss')
     </head>
-    <body>
+    <body class="bg-gray-400">
         <div class="flex flex-col h-screen justify-between">
             <header>
                 @yield('header')

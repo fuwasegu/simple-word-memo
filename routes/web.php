@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,4 +15,13 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', fn () => view('login'));
+Route::get('/login', [AuthenticationController::class, 'login']);
+Route::get('/login/callback', [AuthenticationController::class, 'callback']);
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/', HomeController::class);
+
+    Route::get('/logout', [AuthenticationController::class, 'logout']);
+
+    Route::get('profile', ProfileController::class);
+});

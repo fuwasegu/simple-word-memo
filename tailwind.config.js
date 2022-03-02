@@ -3,29 +3,26 @@ module.exports = {
         './resources/**/*.blade.php',
     ],
     darkMode: false, // or 'media' or 'class'
-    theme: {
-        colors: {
-            main: {
-                light: '#FBC7F7',
-                DEFAULT: '#FB7AFC'
-            },
-            gray: {
-                light: '#999999',
-                DEFAULT: '#999999'
-            },
-            black: {
-                DEFAULT: '#555555'
-            },
-            orange: {
-                DEFAULT: '#FF6347'
-            }
-        },
-        extend: {
-
-        },
-    },
     variants: {
         extend: {},
     },
     plugins: [],
+    theme: {
+        extend: {
+            fontFamily: {
+                kingdom: ["Kingdom"],
+            },
+        },
+        fontSize: {
+            '8px': '8px',
+            '16px': '16px',
+            '24px': '24px',
+            '32px': '32px',
+            '40px': '40px',
+            '48px': '48px',
+            '64px': '64px',
+            '128px': '128px',
+            '256px': '256px',
+        }
+    },
 }
