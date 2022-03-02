@@ -31,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
             ->when(GoogleProvider::class)
             ->needs('$redirectUrl')
             ->give(config('services.google.redirect'));
+
     }
 
     /**

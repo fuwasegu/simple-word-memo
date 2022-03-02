@@ -6,8 +6,6 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 
 class Authenticate extends Middleware
 {
@@ -17,9 +15,7 @@ class Authenticate extends Middleware
     public function handle($request, Closure $next, ...$guards)
     {
         if (! $this->auth->guard()->check()) {
-            return new JsonResponse([
-                'message' => 'Unauthorized'
-            ], Response::HTTP_UNAUTHORIZED);
+            return response(view('login'));
         }
 
         return $next($request);

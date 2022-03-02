@@ -15,11 +15,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/login', [AuthenticationController::class, 'login']);
-Route::get('/login/callback', [AuthenticationController::class, 'callback']);
-
-Route::group(['middleware' => 'auth'], function () {
-    Route::get('/logout', [AuthenticationController::class, 'logout']);
-    Route::get('/user', [UserController::class, 'show']);
-});
 
